@@ -1,11 +1,14 @@
 import stylContact from "./Contact.module.css"
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { deleteContact } from '../../redux/contactsSlice'
+
 export default function Contact({
     id,
     name,
-    number,
- onDel }) {
+    number }) {
+    const dispatch = useDispatch()
     // let status = isOnline ? stylefrcard.online : stylefrcard.offline;
     return (
         <>
@@ -14,7 +17,8 @@ export default function Contact({
                 <p className={stylContact.contField}><BsFillPersonFill /> {name}</p>
                 <p className={stylContact.contField}><BsFillTelephoneFill /> {number}</p>
                 </div>
-                <button className={stylContact.btn} onClick={()=>onDel(id)}>Delete</button>
+                <button className={stylContact.btn}
+                    onClick={() => dispatch(deleteContact(id))}>Delete</button>
                 
                
             </div>

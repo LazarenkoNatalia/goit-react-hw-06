@@ -2,13 +2,17 @@ import { Field, Form, Formik, ErrorMessage } from 'formik'
 import stylForm from './ContactForm.module.css'
 import * as Yup from 'yup'
 import { nanoid } from 'nanoid'
+import { useDispatch } from 'react-redux'
+import { addContact } from '../../redux/contactsSlice'
 
 const validSchema = Yup.object().shape({
 	name: Yup.string().min(3, 'Too small').max(50, 'To large').required('Not valid'),
 	number: Yup.string().min(5, 'Min 5 numbers').required('Not valid'),
 })
 
- export default function ContactForm  ({ submit })  {
+export default function ContactForm() {
+    const dispatch = useDispatch()
+    
     return (
         <Formik
             initialValues={{
@@ -16,8 +20,9 @@ const validSchema = Yup.object().shape({
                 number: '', 
             }}
             onSubmit={(values, actions) => {
-                let id = nanoid()              
-                submit({...values, id})
+                let id = nanoid()      
+                dispatch(addContact({...values, id}))
+             
                 actions.resetForm()
             }}
             validationSchema={validSchema}>

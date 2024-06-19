@@ -1,10 +1,20 @@
 import stylContList from "./ContactList.module.css"
-
+import { useSelector } from 'react-redux';
+import { selectContacts } from '../../redux/contactsSlice.js';
+import { selectNameFilter } from '../../redux/filtersSlice.js';
 import Contact from '../Contact/Contact.jsx';
 
-export default function ContactList({
-    contactitems, onDel }
-) {
+export default function ContactList() {
+
+ const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectNameFilter);
+
+  const contactitems = contacts.filter(contact =>
+      contact.name && contact.name.includes(filter),
+      
+  );
+
+
     return (
         <ul className={stylContList.listCard}>
             {contactitems.map(contlist => {
@@ -14,7 +24,7 @@ export default function ContactList({
                             id={contlist.id}
                             name={contlist.name}
                             number={contlist.number}
-                            onDel={onDel}
+                           
                         />
                     </li>
                 );
